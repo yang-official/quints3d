@@ -35,16 +35,23 @@ func _process(delta):
 	# movement direction
 	if Input.is_action_pressed("move_forward"):
 		direction -= transform.basis.z # basis relative to where player is facing
+		dash()
 	elif Input.is_action_pressed("move_backward"):
 		direction += transform.basis.z
+		dash()
 	if Input.is_action_pressed("move_left"):
 		direction -= transform.basis.x
+		dash()
 	elif Input.is_action_pressed("move_right"):
 		direction += transform.basis.x
+		dash()
 	direction = direction.normalized()
 	velocity = velocity.linear_interpolate(direction * speed, acceleration * delta)
 	velocity = move_and_slide(velocity, Vector3.UP)
 	move_and_slide(fall, Vector3.UP)
+
+func dash():
+	pass
 
 func accelerate_source():
 	pass

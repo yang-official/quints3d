@@ -1,0 +1,5 @@
+5/1
++ initialize project
++ add simple fp control and ground plane
+5/2
++ initialize assault inheriting from child with dash
