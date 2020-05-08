@@ -3,3 +3,6 @@
 + add simple fp control and ground plane
 5/2
 + initialize assault inheriting from child with dash
+5/7
++ added qodot addon
++ removed dash, replaced with double jump

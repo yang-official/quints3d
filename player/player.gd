@@ -1,9 +1,10 @@
 extends KinematicBody
 # scalar kinematics
-var speed = 7 # m/s
+var speed = 7 # m/s, Base = 7, Assault = 10, Heavy = 5
 var acceleration = 20 # m/s^2
 var gravity = 9.8 #m/s^2
 var jump = 5 # m/s
+var has_double_jumped = false
 # controls
 var mouse_sensitivity = 0.05
 # vector kinematics
@@ -26,32 +27,33 @@ func _process(delta):
 	direction = Vector3()
 	if not is_on_floor():
 		fall.y -= gravity * delta
+	else:
+		has_double_jumped = false
 		
 	if Input.is_action_just_pressed("jump"):
-		fall.y = jump
+		if is_on_floor():
+			fall.y = jump
+		else:
+			double_jump()
 		
 	if Input.is_action_just_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) # free mouse cursor
 	# movement direction
 	if Input.is_action_pressed("move_forward"):
 		direction -= transform.basis.z # basis relative to where player is facing
-		dash()
 	elif Input.is_action_pressed("move_backward"):
 		direction += transform.basis.z
-		dash()
 	if Input.is_action_pressed("move_left"):
 		direction -= transform.basis.x
-		dash()
 	elif Input.is_action_pressed("move_right"):
 		direction += transform.basis.x
-		dash()
 	direction = direction.normalized()
 	velocity = velocity.linear_interpolate(direction * speed, acceleration * delta)
 	velocity = move_and_slide(velocity, Vector3.UP)
-	move_and_slide(fall, Vector3.UP)
+	fall = move_and_slide(fall, Vector3.UP)
 
-func dash():
-	pass
+func double_jump():
+	pass # assault only
 
 func accelerate_source():
 	pass

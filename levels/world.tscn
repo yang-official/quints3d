@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://player/assault/assault.tscn" type="PackedScene" id=1]
+[ext_resource path="res://player/player.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 50, 2, 50 )
@@ -19,5 +19,5 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="ground/StaticBody"]
 shape = SubResource( 2 )
 
-[node name="assault" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75239, 0 )
+[node name="player" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.64326, 3.47743 )
