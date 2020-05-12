@@ -1,9 +1,9 @@
 extends KinematicBody
 # scalar kinematics
-var speed = 7 # m/s, Base = 7, Assault = 10, Heavy = 5
-var acceleration = 20 # m/s^2
+var speed = 7.0 # m/s, Base = 7, Assault = 10, Heavy = 5
+var acceleration = 20.0 # m/s^2
 var gravity = 9.8 #m/s^2
-var jump = 5 # m/s
+var jump = 5.0 # m/s
 var has_double_jumped = false
 # controls
 var mouse_sensitivity = 0.05
@@ -55,5 +55,25 @@ func _process(delta):
 func double_jump():
 	pass # assault only
 
-func accelerate_source():
-	pass
+
+# Movement Physics
+func accelerate_source(accel_direction, prev_velocity, accelerate, max_velocity, delta):
+	var projected_velocity = prev_velocity.dot(accel_direction)
+	var accel_velocity = accelerate * delta
+	if projected_velocity + accel_velocity > max_velocity:
+		accel_velocity = max_velocity - projected_velocity
+	return prev_velocity + accel_direction * accel_velocity
+
+var ground_accelerate = 10.0
+var max_velocity_ground = 20.0
+func move_ground_source(accel_direction, prev_velocity, friction, delta):
+	speed = prev_velocity.magnitude
+	if speed != 0:
+		var drop = speed * friction * delta
+		prev_velocity *= max(speed - drop, 0) / speed
+	return accelerate_source(accel_direction, prev_velocity, ground_accelerate, max_velocity_ground, delta)
+
+var air_accelerate = 10.0
+var max_velocity_air = 20.0
+func move_air_source(accel_direction, prev_velocity, delta):
+	return accelerate_source(accel_direction, prev_velocity, air_accelerate, max_velocity_air, delta)
